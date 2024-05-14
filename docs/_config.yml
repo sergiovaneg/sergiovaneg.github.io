@@ -1,27 +1,28 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
 # Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
 
-title: Sergio Vanegas - GH Landing Page
-email: sergiovaneg@gmail.com
+locale: "en-GB"
+timezone: Europe/Helsinki
 
-description: >- # this means to ignore newlines until "baseurl:"
+title: "Sergio Vanegas"
+subtitle: "GH Landing Page"
+
+name: "Sergio Mauricio Vanegas Arias"
+email: "sergiovaneg@gmail.com"
+
+repository: "sergiovaneg/sergiovaneg.github.io"
+
+author:
+  name: "Sergio Mauricio Vanegas Arias"
+  avatar: "/assets/images/bio-photo.jpg"
+  bio: >-
+    "**Sergio Mauricio Vanegas Arias** is a Junior Researcher and Doctoral Student at Lappeenranta-Lahti University of Technology (LUT), Finland. His research interests include Machine Learning (ML) for industrial applications and Digital Signal Processing."
+  location: "Lappeenranta, FI"
+  links:
+    - label: "GitHub"
+      icon: "fa-brands fa-github-alt"
+      url : "https://github.com/sergiovaneg"
+
+description: >-
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
@@ -29,13 +30,28 @@ description: >- # this means to ignore newlines until "baseurl:"
 domain: sergiovaneg.github.io
 url: https://sergiovaneg.github.io
 
-twitter_username: SergioMVanegasA
 github_username: sergiovaneg
 
 # Build settings
-theme: jekyll-theme-midnight
+incremental: true
+github: [metadata]
+remote_theme: "mmistakes/minimal-mistakes"
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-paginate
+
+# Theme Specifics
+minimal_mistakes_skin: "neon"
+pagination: 5
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      show_date: true
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
