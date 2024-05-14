@@ -1,73 +1,78 @@
 # Site settings
 
+## Theme
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "neon"
+
+## Localisation
 locale: "en-GB"
 timezone: Europe/Helsinki
 
+## Title
 title: "Sergio Vanegas"
 subtitle: "GH Landing Page"
 
-name: "Sergio Mauricio Vanegas Arias"
+## Website Info
+name: "Sergio Vanegas"
 email: "sergiovaneg@gmail.com"
+description: "Personal blog to post news and updates, mainly on code."
 
+## GH Info
+url: https://sergiovaneg.github.io
+domain: sergiovaneg.github.io
 repository: "sergiovaneg/sergiovaneg.github.io"
 
-author:
-  name: "Sergio Mauricio Vanegas Arias"
-  avatar: "/assets/images/bio-photo.jpg"
-  bio: >-
-    "**Sergio Mauricio Vanegas Arias** is a Junior Researcher and Doctoral Student at Lappeenranta-Lahti University of Technology (LUT), Finland. His research interests include Machine Learning (ML) for industrial applications and Digital Signal Processing."
-  location: "Lappeenranta, FI"
-  links:
-    - label: "GitHub"
-      icon: "fa-brands fa-github-alt"
-      url : "https://github.com/sergiovaneg"
+## TODO: Masthead
+logo: "https://avatars.githubusercontent.com/u/11050167?s=400&u=78f591349509757074f2e0067c392980b2cdb43e&v=4"
 
-description: >-
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-
-domain: sergiovaneg.github.io
-url: https://sergiovaneg.github.io
-
-github_username: sergiovaneg
-
-# Build settings
-incremental: true
-github: [metadata]
-remote_theme: "mmistakes/minimal-mistakes"
-plugins:
-  - jekyll-feed
-  - jekyll-remote-theme
-  - jekyll-include-cache
-  - jekyll-paginate
-
-# Theme Specifics
-minimal_mistakes_skin: "neon"
-pagination: 5
+## Post Dates
 defaults:
   # _posts
   - scope:
       path: ""
       type: posts
     values:
+      layout: single
+      author_profile: true
       show_date: true
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+      read_time: true
+      share: true
+      related: true
+
+## TODO: Enable Search
+
+## Author (Interpretable by MM Theme)
+author:
+  name: "Sergio Mauricio Vanegas Arias"
+  avatar: "/assets/images/profile.jpg"
+  bio: >-
+    "**Sergio Mauricio Vanegas Arias** is a Junior Researcher and Doctoral Student at Lappeenranta-Lahti University of Technology (LUT), Finland. His research interests include Machine Learning (ML) for industrial applications and Digital Signal Processing."
+  location: "Lappeenranta, FI"
+  links:
+    - label: "GitHub"
+      icon: "fa-brands fa-github-alt"
+      url: "https://github.com/sergiovaneg"
+    - label: "LinkedIn"
+      icon: "fa-brands fa-linkedin-in"
+      url: >-
+        "https://www.linkedin.com/in/sergio-mauricio-vanegas-arias-5604601a3/"
+    - label: "Reddit"
+      icon: "fa-brands fa-reddit-alien"
+      url: "https://www.reddit.com/user/DMDemon/"
+
+## Pagination
+pagination: 5
+
+# Build settings
+incremental: true
+github: [metadata]
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
+
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-paginate

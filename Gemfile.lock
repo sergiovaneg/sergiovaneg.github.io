@@ -13,6 +13,11 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    algolia (2.3.4)
+      faraday (>= 0.15, < 3)
+      faraday-net_http_persistent (>= 0.15, < 3)
+      multi_json (~> 1.0)
+      net-http-persistent
     base64 (0.2.0)
     bigdecimal (3.1.8)
     coffee-script (2.4.1)
@@ -37,6 +42,9 @@ GEM
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
+    faraday-net_http_persistent (2.1.0)
+      faraday (~> 2.5)
+      net-http-persistent (~> 4.0)
     faraday-retry (2.2.1)
       faraday (~> 2.0)
     ffi (1.16.3)
@@ -221,9 +229,12 @@ GEM
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
     minitest (5.22.3)
+    multi_json (1.15.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
+    net-http-persistent (4.0.2)
+      connection_pool (~> 2.2)
     nokogiri (1.16.5-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.5-arm-linux)
@@ -282,6 +293,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  algolia
   faraday-retry
   github-pages
   http_parser.rb (~> 0.6.0)
