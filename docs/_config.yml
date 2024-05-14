@@ -33,6 +33,7 @@ url: https://sergiovaneg.github.io
 github_username: sergiovaneg
 
 # Build settings
+<<<<<<< HEAD
 incremental: true
 github: [metadata]
 remote_theme: "mmistakes/minimal-mistakes"
@@ -52,6 +53,13 @@ defaults:
       type: posts
     values:
       show_date: true
+=======
+github: [metadata]
+theme: jekyll-theme-midnight
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+>>>>>>> 914a093 (Added scss file)
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
