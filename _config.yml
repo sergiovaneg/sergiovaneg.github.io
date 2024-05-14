@@ -49,7 +49,7 @@ author:
   name: "Sergio Mauricio Vanegas Arias"
   avatar: "/assets/images/profile.jpg"
   bio: >-
-    "Junior Researcher and Doctoral Student at Lappeenranta-Lahti University of Technology (LUT), Finland. His research interests include Machine Learning (ML) for industrial applications and Digital Signal Processing."
+    "Junior Researcher and Doctoral Student at Lappeenranta-Lahti University of Technology (LUT), Finland. Research interests include Machine Learning (ML) for Industrial Applications and Digital Signal Processing."
   location: "Lappeenranta, FI"
   links:
     - label: "GitHub"
@@ -82,3 +82,6 @@ plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
   - jekyll-paginate
+
+exclude:
+  - "./README.md"
