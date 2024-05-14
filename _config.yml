@@ -63,6 +63,9 @@ author:
       icon: "fa-brands fa-reddit-alien"
       url: "https://www.reddit.com/user/DMDemon/"
 
+## Conversion and Markdown processing
+markdown: GFM
+
 ## Pagination
 pagination: 5
 
