@@ -52,6 +52,12 @@ author:
     "Junior Researcher and Doctoral Student at Lappeenranta-Lahti University of Technology (LUT), Finland. Research interests include Machine Learning (ML) for Industrial Applications and Digital Signal Processing."
   location: "Lappeenranta, FI"
   links:
+    - label: "Email"
+      icon: "fa-solid fa-envelope"
+      url: "mailto:sergio.vanegas.arias@lut.fi"
+    - label: "LUT Profile"
+      icon: "fa-solid fa-building-columns"
+      url: "https://www.lut.fi/en/profiles/sergio-vanegas-arias"
     - label: "GitHub"
       icon: "fa-brands fa-github-alt"
       url: "https://github.com/sergiovaneg"
