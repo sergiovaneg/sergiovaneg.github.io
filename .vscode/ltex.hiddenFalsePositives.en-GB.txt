@@ -1,0 +1,1 @@
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QI can live with the lack of memory safety, and it's actually satisfying to watch the compilation bar go Brrr,\\E$"}
