@@ -1,1 +1,3 @@
 {"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QI can live with the lack of memory safety, and it's actually satisfying to watch the compilation bar go Brrr,\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QMy code is my domain, and I am free to develop it as I see fit or to burn it down and rebuild it from its ashes at my discretion; all my supervisors care about is that the error metrics go down and that the inference time goes Brrr.\\E$"}
+{"rule":"EN_GB_SIMPLE_REPLACE","sentence":"^\\QKeep in mind I implemented my solution in Go which, even if compiled, relies on a runtime with a garbage collector, so I am sure further optimizations can be done by using a manually managed language like Zig or Rust.\\E$"}
