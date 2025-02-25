@@ -3,3 +3,5 @@ CUDA
 JAX
 Zig
 subgrid
+subgrids
+hashable
