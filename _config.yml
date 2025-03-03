@@ -70,7 +70,9 @@ author:
       url: "https://www.reddit.com/user/DMDemon/"
 
 ## Conversion and Markdown processing
-markdown: GFM
+markdown: kramdown
+kramdown:
+  math_engine: katex
 
 ## Pagination
 pagination: 5

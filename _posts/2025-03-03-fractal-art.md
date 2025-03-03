@@ -2,6 +2,7 @@
 title: "Fractal Art (AoC 2017, Day 21)"
 date: 2025-03-03
 categories: Go, AoC
+katex: True
 ---
 ## Table of Contents
 
@@ -30,7 +31,7 @@ There is nothing inherently different about the problem in this post. However, t
 
 ## The Problem
 
-The full description can be found [here](https://adventofcode.com/2017/day/21). Picture a square grid ($N \times N$) containing one of two ASCII characters, namely `-` (0 or off) and `#` (1 or on), and starting as:
+The full description can be found [here](https://adventofcode.com/2017/day/21). Picture a square grid $\left(N \times N\right)$ containing one of two ASCII characters, namely `-` (0 or off) and `#` (1 or on), and starting as:
 
 ![Seed Fractal](/assets/fractalArt/seed.png)
 
@@ -164,7 +165,7 @@ func (f *naiveFractal) setSubfractal(i, j, n int, sf naiveFractal) {
 }
 ```
 
-Here the main fractal is split into $n$-by-$n$ sub-fractals and select the ($i$-th,$j$-th) square. Then, since an iteration of the requested procedure increases the size of the grid deterministically, the resulting fractal can be pre-allocated and filled using the above helper methods. Thus, an iteration is implemented as follows:
+Here the main fractal is split into $n$-by-$n$ sub-fractals and select the $\left(i,j\right)$-th square. Then, since an iteration of the requested procedure increases the size of the grid deterministically, the resulting fractal can be pre-allocated and filled using the above helper methods. Thus, an iteration is implemented as follows:
 
 ```go
 func (r naiveRuleset) grow(f naiveFractal) naiveFractal {
@@ -459,7 +460,7 @@ For each column, the colours and numbers above indicate the input-output subregi
 
 Keep in mind that whenever the requested number of iterations is not a multiple of 3, we will have to make the tracked elementary 3-fractals grow for the remaining number of generations. However, since they are already grouped, this procedure only has to be carried out once per distinct pattern. Finally, we can multiply the amount of `#` in the tracked subfractals by their number of instances and get the answer.
 
-Since there are only $2^9/8=64$ unique normalized 3-fractals, once $N_k \ge 68$ we are bound to have repeated patterns, which in our algorithm happens for the first time at $k=6$. This means that the cost of each iteration beyond this point becomes constant. Moreover, the cost of iterating can be further reduced by applying some of the optimizations we have reviewed so far to this new macro-loop.
+Since there are only $\frac{2^9}{8}=64$ unique normalized 3-fractals, once $N_k \ge 68$ we are bound to have repeated patterns, which in our algorithm happens for the first time at $k=6$. This means that the cost of each iteration beyond this point becomes constant. Moreover, the cost of iterating can be further reduced by applying some of the optimizations we have reviewed so far to this new macro-loop.
 
 ### The Implementation
 
