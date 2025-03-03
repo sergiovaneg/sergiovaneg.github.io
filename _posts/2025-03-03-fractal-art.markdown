@@ -1,6 +1,6 @@
 ---
 title: "Fractal Art (AoC 2017, Day 21)"
-date: 2025-03-13
+date: 2025-03-03
 categories: Go, AoC
 ---
 ## Table of Contents
