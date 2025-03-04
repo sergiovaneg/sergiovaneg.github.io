@@ -280,7 +280,7 @@ N_{k+1} &= \begin{cases}
 \end{split}
 $$
 
-This means the grid grows exponentially, which entails $\mathcal{O}(C^k)$. If math alone isn't scary enough, let's take a look at some numbers:
+This means the grid grows exponentially, which entails $\mathcal{O}(C^k)$. If s alone aren't scary enough, let's take a look at some numbers:
 
 | $k$ | $N_k$ | Size in Memory[^1] |
 | :-: | :-: | :-: |
@@ -291,19 +291,19 @@ This means the grid grows exponentially, which entails $\mathcal{O}(C^k)$. If ma
 | 4 | 12 | 144 B |
 | 5 | 18 | 324 B |
 | 6 | 27 | 729 B |
-| 7 | 36 | 1.27 kiB |
-| 8 | 54 | 2.85 kiB |
-| 9 | 81 | 6.41 kiB |
+| 7 | 36 | 1.27 KiB |
+| 8 | 54 | 2.85 KiB |
+| 9 | 81 | 6.41 KiB |
 | $\vdots$ | $\vdots$ | $\vdots$ |
-| 16 | 972 | 923 kiB |
+| 16 | 972 | 923 KiB |
 | 17 | 1458 | 2.03 MiB |
 | 18 | 2187 | 4.56 MiB |
 
 [^1]: Not the exact size in memory, since dynamic arrays (Slices) also store their length and each row is stored as a pointer. Nevertheless, the effect is negligible.
 
-So while in the first part we had to handle a 36B array, for part 2 we are allocating 4.5MiB of memory, which is a million-plus-fold increase in the number of elements. But alas, inefficient as it is, computer hardware and compilers nowadays are good enough so that even my cheap-ass Huawei laptop can just brute-force a 2017 puzzle. Not just that, but the $1E6\times$ increase in size only incurred a $6E3\times$ increase in runtime.
+So while in the first part we had to handle a 36B array, for part 2 we are allocating 4.5 MiB of memory, which is a million-plus-fold increase in the number of elements. But alas, inefficient as it is, computer hardware and compilers nowadays are good enough so that even my cheap-ass Huawei laptop can just brute-force a 2017 puzzle. Not just that, but the $1E6\times$ increase in size only incurred a $6E3\times$ increase in runtime.
 
-For day 21, I was expecting the brute-force approach not to scale for part 2, and I admit I didn't even try the naïve implementation until I started writing this blog. I guess problems back then didn't blow up so spectacularly as the ones we've gotten in recent years (I'm looking at you specifically, [*Step Counter*](https://adventofcode.com/2023/day/21)). Therefore, in order to observe a measurable effect as optimizations are introduced, let's see how many iterations does it take to get to a nice round runtime; say, at least 10 seconds:
+For day 21, I was expecting the brute-force approach not to scale for part 2, and I admit I didn't even try the naïve implementation until I started writing this blog. I guess problems back then didn't blow up so spectacularly as the ones we've got in recent years (I'm looking at you specifically, [*Step Counter*](https://adventofcode.com/2023/day/21)). Therefore, in order to observe a measurable effect as optimizations are introduced, let's see how many iterations does it take to get to a nice round runtime; say, at least 10 seconds:
 
 ```text
 ...
@@ -317,7 +317,7 @@ So 22 will be our target number of iterations. To avoid drowning this blog in lo
 
 ## <a id="concurrent"></a>Brute-Force 2: Concurrent Boogaloo
 
-First, I wanted to see how much of an improvement I could get out of *Goroutines*. It doesn't matter what your stance is on Go or how verbose its error-handling is, one thing no one can deny is how ridiculously easy it is to refactor embarrasingly-parallel code and make it concurrent. For example, the `grow` method calls the `transform` function separately for each subsector of the grid; and since the next-generation grid is pre-allocated, making it concurrent requires little to no effort:
+First, I wanted to see how much of an improvement I could get out of *Goroutines*. It doesn't matter what your stance is on Go or how verbose its error-handling is, one thing no one can deny is how ridiculously easy it is to refactor embarrasingly-parallel code and make it concurrent. For example, the `grow` method calls the `transform` function separately for each subregion of the grid; and since the next-generation grid is pre-allocated, making it concurrent requires little to no effort:
 
 ```go
 func (r naiveRuleset) growParallel(f naiveFractal) naiveFractal {
@@ -351,7 +351,7 @@ func (r naiveRuleset) growParallel(f naiveFractal) naiveFractal {
 }
 ```
 
-So yeah, pretty much the same function with a waitgroup in the middle. I decided to parallelize only the first iteration level for the sake of performance (more details in short). Now, let's see some numbers:
+So yeah, pretty much the same function with a wait-group in the middle. I decided to parallelize only the first iteration level for the sake of performance (more details in short). Now, let's see some numbers:
 
 ```text
                                       │    sec/op    │
@@ -367,20 +367,20 @@ Solvers/Naïve_Concurrent_Solver/22-12    2.034 ±  4%
 
 So, a couple of things to highlight here:
 
-- Green threads are cheap, but they're not free. The cost of syncronization and spawning goroutines makes it so that concurrency is initially as expensive as (or even more so than) single-threaded execution.
+- Green threads are cheap, but they're not free. The cost of synchronization and spawning Goroutines makes it so that concurrency is initially as expensive as (or even more so than) single-threaded execution.
 - As we increase the number of iterations, the improvement becomes clear, yielding a $5\times$ speed-up for 22 procedure iterations without modifying the algorithm or data structures.
 
-Still, a pretty significative improvement for what is essentially the same code. I wonder if there is another trivial optimization I might be missing...
+Still, a pretty hefty improvement for what is essentially the same code. I wonder if there is another trivial optimization I might be missing...
 
 ## <a id="dp-naïve"></a>Brute-Force 3: DP Rises
 
-I'm not gonna sit here and pretend Dynamic Programming is an inherently easy concept. In general, figuring what repeated calls to store without creating an infinite lookup table is a challenge on its own. However, the problem itself is giving us a bounded set of inputs we will ever have to calculate: the rule-set.
+I'm not going to sit here and pretend Dynamic Programming is an inherently easy concept. In general, figuring what repeated calls to store without creating an infinite lookup table is a challenge on its own. However, the problem itself is giving us a bounded set of inputs we will ever have to calculate: the rule-set.
 
 Since we will only ever need to transform fractals of size 2 and 3, assuming 1 of 2 values for each of its slots, we end up with a total of $2^4+2^9 = 528$ potential input fractals. Rather than transforming and matching the input pattern to its registered invariant as it is passed to the `transform` method, it is faster (at least in the long-term) to record them in the rule-set as-is.
 
 > Wouldn't that be inefficient, though?
 
-I mean, kinda? It ends up being around 5 times the original rule-set's size, but we're talking about 9-16 Byte fractals, so duplication is not that big of a deal. But alright: for the sake of memory efficiency, let's mod the rule-set a little bit:
+I mean, kinda? It ends up being around 5 times the original rule-set's size, but we're talking about 9-16 Byte fractals, so duplication is not that big of a deal. But alright: for the sake of memory efficiency, let us mod the rule-set a little:
 
 ```go
 type normalizer map[string]*string
@@ -397,7 +397,7 @@ func (nr normalizedRuleset) get(serial string) (naiveFractal, bool) {
 
 While it doesn't seem like much of a change (and it practice it isn't), we can effectively remove fractal duplication by creating an intermediate hash-map and making all equivalent serials point to the memory address of the registered one. In the case of $n=3 \rightarrow n=4$ transformations, we go from $8 \times 16B = 128$ Bytes to $8 \times 8B + 16B = 80$ Bytes per equivalent set. A fun little experiment that requires near-zero effort and yields near-zero gain.
 
-Now, for the actual improvement, we have two ways of adding DP to the mix: tabulation and memoization. Both are relatively easy to implement through the current structures; however, if we want to preserve trivial concurrency, the rule-set hash-map cannot be modified while other threads are running, which is why I decided to stick to tabulation and pre-calculate the invariants during intialization. The resulting implementation is as follows (the `grow` method is just a copy of the `growParallel` method):
+Now, for the actual improvement, we have two ways of adding DP to the mix: tabulation and memoization. Both are relatively easy to implement through the current structures; however, if we want to preserve trivial concurrency, the rule-set hash-map cannot be modified while other threads are running, which is why I decided to stick to tabulation and pre-calculate the invariants during initialization. The resulting implementation is as follows (the `grow` method is just a copy of the `growParallel` method):
 
 ```go
 func initNormalizedRuleset(lines []string) normalizedRuleset {
@@ -434,7 +434,7 @@ func (nr normalizedRuleset) transform(f naiveFractal) naiveFractal {
 func (nr normalizedRuleset) grow(f naiveFractal) naiveFractal
 ```
 
-So, with out new ruleset, we can go and see how much of an improvement we got:
+So, with our new rule-set, we can go and see how much of an improvement we got:
 
 ```text
                               │    sec/op    │
@@ -448,13 +448,13 @@ Solvers/Naïve_DP_Solver/18-12   80.12m ±  9%
 Solvers/Naïve_DP_Solver/22-12   711.2m ±  5%
 ```
 
-It's clear that, by using tabulation, we're paying a heavier warm-up price. However, by the 18th iteration we have already got a return-on-investment, to the point where the 22th iteration now is reachable in under a second. Considering we started at 10 seconds, this is a $14\times$ improvement without fundamentally changing the original algorithm, and a $3\times$ improvement over just concurrency.
+It's clear that, by using tabulation, we're paying a heavier warm-up price. However, by the 18th iteration we have already got a return-on-investment, to the point where the 22nd iteration now is reachable in under a second. Considering we started at 10 seconds, this is a $14\times$ improvement without fundamentally changing the original algorithm, and a $3\times$ improvement over just concurrency.
 
 However, not modifying the algorithm also means that its asymptotic complexity remains exponential. Well, what if I told you that by representing our state in a more clever way, focusing on what the problem is actually asking from us, it is possible to reach $\mathcal{O}(1)$ complexity?
 
 ## <a id="insight"></a>Independent Evolution and Separable Elements
 
-The original problem requests the number of `#` characters present after a number of iterations; it nevers says anything about their position. However, we have seen that fractals mix before applying the rules for every iteration, so it's not as simple as applying the rules recursively for each subfractal. Thus, I decided to take a look at the behaviour of the algorithm during the first few iterations.
+The original problem requests the number of `#` characters present after a number of iterations; it never says anything about their position. However, we have seen that fractals mix before applying the rules for every iteration, so it's not as simple as applying the rules recursively for each sub-fractal. Thus, I decided to take a look at the behaviour of the algorithm during the first few iterations.
 
 ### The Heuristic
 
@@ -462,9 +462,9 @@ The original problem requests the number of `#` characters present after a numbe
 
 For each column, the colours and numbers above indicate the input-output subregion correspondence. Notice a pattern? There is a 3-periodic sequence in the algorithm; i.e., starting from a fractal of size $n=3$, after 3 iterations we get a set of 9 3-fractals that evolve independently and deterministically. This means that there is no need of tracking the position of these *atomic* elements with respect to each other, so we can just track the number of repeated normalized (since the first transition disregards orientation and mirroring) 3-fractals currently in our grid.
 
-Keep in mind that whenever the requested number of iterations is not a multiple of 3, we will have to make the tracked elementary 3-fractals grow for the remaining number of generations. However, since they are already grouped, this procedure only has to be carried out once per distinct pattern. Finally, we can multiply the amount of `#` in the tracked subfractals by their number of instances and get the answer.
+Keep in mind that whenever the requested number of iterations is not a multiple of 3, we will have to make the tracked elementary 3-fractals grow for the remaining number of generations. However, since they are already grouped, this procedure only has to be carried out once per distinct pattern. Finally, we can multiply the amount of `#` in the tracked sub-fractals by their number of instances and get the answer.
 
-Since there are only $\frac{2^9}{8}=64$ unique normalized 3-fractals, once $N_k \ge 68$ we are bound to have repeated patterns, which in our algorithm happens for the first time at $k=6$. This means that the cost of each iteration beyond this point becomes constant. Moreover, the cost of iterating can be further reduced by applying some of the optimizations we have reviewed so far to this new macro-loop.
+Since there are only $102$ unique normalized 3-fractals (according to the puzzle input), once $N_k \ge 3\sqrt{102}$ we are bound to have repeated patterns, which in our algorithm happens for the first time at $k=7$. This means that the cost of each iteration beyond this point (or even earlier if the seed/rule-set pair is such that some 3-fractals never show up in the sequence) becomes constant. Moreover, the cost of iterating can be further reduced by applying some of the optimizations we have reviewed so far to this new macro-loop.
 
 ### The Implementation
 
@@ -484,7 +484,7 @@ type groupedRuleset struct {
 
 Here, `stateSequence` is a structure that stores the 3 states generated by a (normalized) 3-fractal:
 
-1. `s1`, the serial of the 4-fractal associated to the normalized serial in the original ruleset;
+1. `s1`, the serial of the 4-fractal associated to the normalized serial in the original rule-set;
 2. `s2`, the serial of the 6-fractal following the above 4-fractal;
 3. and `s3`, a hash-map giving the frequency of the 9 3-fractals forming the 9-fractal at the end of the 3-step sequence.
 
@@ -604,7 +604,7 @@ func (GroupedSolver) Solve(seed string, nIters int, lines []string) uint {
 }
 ```
 
-Note that concurrency was not used this time, since the overhead from aggregating up to 64 maps for what is essentially a retrieval-by-key is simply not justified.
+Note that concurrency was not used this time, since the overhead from aggregating up to 102 maps for what is essentially a retrieval-by-key is simply not justified.
 
 ### The Numbers
 
@@ -643,6 +643,6 @@ All the code implementing the described solutions, as well as the test suite and
 
 ![Timing Results](/assets/fractalArt/results.png)
 
-Further optimizations could be made by exploiting the predetermined shapes in the 3-step sequences, using fixed-size arrays (or even bitmasks) instead of slices and strings to represent the state of the system. Moreover, as I mentioned earlier, there is performance left on the table due to Go being a garbage-collected programming language. Perhaps I'll revisit this problem and extend the results once Zig reaches 1.0 and continue from this last implementation.
+Further optimizations could be made by exploiting the predetermined shapes in the 3-step sequences, using fixed-size arrays (or even bit-masks) instead of slices and strings to represent the state of the system. Moreover, as I mentioned earlier, there is performance left on the table due to Go being a garbage-collected programming language. Perhaps I'll revisit this problem and extend the results once Zig reaches 1.0 and continue from this last implementation.
 
 Regardless, I'm satisfied with how intuitive this heuristic was for me, and I hope this wasn't just a fluke. I will try to do a similar write-up for other problems I find interesting, perhaps using Elixir or trying OCaml instead. For the time being, I should probably go back to work and check how the hyperparameter search is going 🫠.

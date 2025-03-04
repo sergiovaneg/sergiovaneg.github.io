@@ -5,3 +5,8 @@ Zig
 subgrid
 subgrids
 hashable
+Boogaloo
+Goroutines
+goroutines
+memoization
+memoizes
