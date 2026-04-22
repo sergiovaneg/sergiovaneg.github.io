@@ -639,10 +639,10 @@ This time, I left all the results to confirm my earlier hypothesis: as predicted
 
 ## <a id="conclusion"></a>Wrapping Up
 
-All the code implementing the described solutions, as well as the test suite and the figure-generation script, can be found in my [GitHub repo](https://github.com/sergiovaneg/GoStudy/tree/master/AoC/2017/fractalArt).
+All the code implementing the described solutions, as well as the test suite and the figure-generation script, can be found in my [Codeberg repo](https://codeberg.org/sergiovaneg/GoStudy/src/branch/master/AoC/2017/fractalArt).
 
 ![Timing Results](/assets/fractalArt/results.png)
 
-Further optimizations could be made by exploiting the predetermined shapes in the 3-step sequences, using fixed-size arrays (or even bit-masks) instead of slices and strings to represent the state of the system. Moreover, as I mentioned earlier, there is performance left on the table due to Go being a garbage-collected programming language. Perhaps I'll revisit this problem and extend the results once Zig reaches 1.0 and continue from this last implementation.
+Further optimizations could be made by exploiting the predetermined shapes in the 3-step sequences, using fixed-size arrays (or even bit-masks) instead of slices and strings to represent the state of the system. Moreover, as I mentioned earlier, there is performance left on the table due to Go being a garbage-collected programming language. Perhaps I'll revisit this problem and extend the results once Zig reaches 1.0, and continue from this last implementation.
 
 Regardless, I'm satisfied with how intuitive this heuristic was for me, and I hope this wasn't just a fluke. I will try to do a similar write-up for other problems I find interesting, perhaps using Elixir or trying OCaml instead. For the time being, I should probably go back to work and check how the hyperparameter search is going 🫠.
